@@ -9,7 +9,6 @@ interface Props_I {
     board: Board_I;
 }
 
-
 export const ColumnsBoard: FC<Props_I> = ({ board }) => {
 
     const { emit_setBoardData } = useBoardStore();
@@ -33,14 +32,13 @@ export const ColumnsBoard: FC<Props_I> = ({ board }) => {
     }
 
     useEffect(() => {
-        setisMounted(true);
-    }, []);
-
-    useEffect(() => {
         if (!isMounted) return;
         emit_setBoardData(id, tasksList);
     }, [tasksList]);
 
+    useEffect(() => {
+        setisMounted(true);
+    }, []);
 
     return (
         <div className="p-8 bg-gray-200 kanban-board col-span-full rounded-xl sm:col-span-6 xl:col-span-4">
