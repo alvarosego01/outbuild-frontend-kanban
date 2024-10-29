@@ -123,17 +123,7 @@ export const boardSlice = createSlice({
             }));
 
         },
-        on_removeTask: (state, { payload }: PayloadAction<{ boardId: string, task: Task_I }>) => {
 
-            const { boardId, task } = payload;
-            const taskId = task.id;
-            const boardIndex: number = state.boards.findIndex((board: Board_Slice_I) => board.id === boardId);
-
-            const taskIndex: number = state.boards[boardIndex].tasks.findIndex((task: Task_Slice_I) => task.id === taskId);
-
-            state.boards[boardIndex].tasks.splice(taskIndex, 1);
-
-        },
 
         on_addTaskToBoard: (state, { payload }: PayloadAction<{ board_id: string, task: Task_I }>) => {
 
@@ -160,7 +150,6 @@ export const {
     on_restoreDefault,
     on_setBoardLoading,
     on_editTask,
-    on_removeTask,
     on_setBoardData,
     on_addTaskToBoard
 

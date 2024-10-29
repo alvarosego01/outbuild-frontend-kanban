@@ -5,9 +5,15 @@ import { Task_I } from "../../../../../core/interfaces"
 
 interface Props_I {
     task: Task_I;
+    onDeleteTask: (id: string) => void;
+    onEditTask: (id: string) => void;
 }
 
-export const Task: FC<Props_I> = ({ task }) => {
+export const Task: FC<Props_I> = ({
+    task,
+    onDeleteTask,
+    onEditTask
+}) => {
     const { title, description, created_at } = task;
 
     return (
@@ -21,11 +27,15 @@ export const Task: FC<Props_I> = ({ task }) => {
 
                 <div className="flex flex-row buttonsSection gap-x-2">
 
-                    <button className="flex items-center justify-center transition bg-white border border-gray-200 rounded-full w-7 h-7 hover:border-gray-300 text-violet-400">
+                    <button
+                        onClick={() => onEditTask(task.id)}
+                        className="flex items-center justify-center transition bg-white border border-gray-200 rounded-full w-7 h-7 hover:border-gray-300 text-violet-400">
                         <span className="sr-only">Add</span>
                         <i className=' bx bx-edit-alt'></i>
                     </button>
-                    <button className="flex items-center justify-center text-red-400 transition bg-white border border-gray-200 rounded-full w-7 h-7 hover:border-gray-300">
+                    <button
+                        onClick={() => onDeleteTask(task.id)}
+                        className="flex items-center justify-center text-red-400 transition bg-white border border-gray-200 rounded-full w-7 h-7 hover:border-gray-300">
                         <span className="sr-only">Delete</span>
                         <i className='bx bx-trash'  ></i>
                     </button>
@@ -40,7 +50,7 @@ export const Task: FC<Props_I> = ({ task }) => {
                             <path d="M4 0a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4H4ZM2 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4Z" />
                         </svg>
                         <div className="text-xs text-yellow-600">
-                            { created_at }
+                            {created_at}
                         </div>
                     </div>
 
