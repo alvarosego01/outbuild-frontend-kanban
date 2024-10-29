@@ -70,33 +70,7 @@ const initialState: boardState_I = {
             id: '2',
             title: 'In Progress',
             tasks: [
-                // {
-                //     id: randomid(),
-                //     title: 'Task c2 1',
-                //     description: 'Description 1',
-                //     created_at: '2021-09-09',
-                //     comments: [],
-                //     status: TaskStatus_E.TODO,
-                //     handle: initialHandle
-                // },
-                // {
-                //     id: randomid(),
-                //     title: 'Task c2s 2',
-                //     description: 'Description 2',
-                //     created_at: '2021-09-09',
-                //     comments: [],
-                //     status: TaskStatus_E.TODO,
-                //     handle: initialHandle
-                // },
-                // {
-                //     id: randomid(),
-                //     title: 'Task c2s 3',
-                //     description: 'Description 3',
-                //     created_at: '2021-09-09',
-                //     comments: [],
-                //     status: TaskStatus_E.TODO,
-                //     handle: initialHandle
-                // }
+
             ],
             handle: initialHandle,
         },
@@ -104,15 +78,7 @@ const initialState: boardState_I = {
             id: '3',
             title: 'Done',
             tasks: [
-                //    {
-                //     id: randomid(),
-                //     title: 'Task c3 1',
-                //     description: 'Description c3 1',
-                //     created_at: '2021-09-09',
-                //     comments: [],
-                //     status: TaskStatus_E.TODO,
-                //     handle: initialHandle
-                // },
+
             ],
             handle: initialHandle,
         }
@@ -146,7 +112,15 @@ export const boardSlice = createSlice({
             };
 
         },
-        on_moveTask: (state, { payload }: PayloadAction<{ taskId: string, targetBoardId: string, newIndex: number }>) => {
+        on_setBoardData: (state, { payload }: PayloadAction<{ boardId: string, tasks: Task_I[] }>) => {
+
+            const { boardId, tasks } = payload;
+            const boardIndex: number = state.boards.findIndex((board: Board_Slice_I) => board.id === boardId);
+
+            state.boards[boardIndex].tasks = tasks.map((task: Task_I) => ({
+                handle: initialHandle,
+                ...task
+            }));
 
         },
         on_removeTask: (state, { payload }: PayloadAction<{ boardId: string, task: Task_I }>) => {
@@ -160,19 +134,7 @@ export const boardSlice = createSlice({
             state.boards[boardIndex].tasks.splice(taskIndex, 1);
 
         },
-        on_setOrderBoard: (state, { payload }: PayloadAction<{ board_id: string, tasks: Task_I[] }>) => {
 
-            const { board_id, tasks } = payload;
-            const index: number = state.boards.findIndex((board: Board_Slice_I) => board.id === board_id);
-
-            state.boards[index].tasks = tasks.map((task: Task_I) => ({
-                handle: initialHandle,
-                ...task
-            }));
-
-            state.boards[index].handle = initialHandle;
-
-        },
         on_addTaskToBoard: (state, { payload }: PayloadAction<{ board_id: string, task: Task_I }>) => {
 
             const { board_id, task } = payload;
@@ -199,8 +161,7 @@ export const {
     on_setBoardLoading,
     on_editTask,
     on_removeTask,
-    on_moveTask,
-    on_setOrderBoard,
+    on_setBoardData,
     on_addTaskToBoard
 
 } = boardSlice.actions;
