@@ -95,12 +95,12 @@ export const EditTaskModal: FC = () => {
         onSubmit: (values) => {
 
             emit_editTask(board_id, task_id, values.title, values.description);
-
             onCloseModal();
 
         },
         validationSchema: validation_rules
     });
+
 
     const {
         values,

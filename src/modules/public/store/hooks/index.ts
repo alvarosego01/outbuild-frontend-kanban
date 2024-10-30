@@ -1,4 +1,4 @@
 
 
 
-export * from './useBoardSlice';
+export * from './useBoardStore';

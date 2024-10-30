@@ -1,6 +1,6 @@
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { boardState_I, on_addTaskToBoard, on_editTask, on_restoreDefault, on_setBoardData, on_setBoardLoading, on_setTaskLoading  } from '../reducers/boardSlice';
+import { boardState_I, on_addTaskToBoard, on_editTask, on_refreshBoards, on_restoreDefault, on_setBoardData, on_setBoardLoading, on_setTaskLoading  } from '../reducers/boardSlice';
 import { Reducers_I } from "../../../../core/store/store";
 import { Handle_Events_I, Task_I } from "../../../../core/interfaces";
 
@@ -14,7 +14,8 @@ interface useBoardStore_I {
     emit_editTask: (boardId: string, task_id: string, title: string, description: string) => void;
     emit_setBoardData: (board_id: string, tasks: Task_I[]) => void;
     emit_addTaskToBoard: (board_id: string, title: string, description: string) => void;
-    emit_get_taskHandle: (board_id: string, task_id: string) => Handle_Events_I
+    emit_get_taskHandle: ( task_id: string) => Handle_Events_I;
+    emit_refreshBoards: (status: boolean) => void;
 
 }
 
@@ -28,6 +29,10 @@ export const useBoardStore = (): useBoardStore_I => {
         dispatch(on_restoreDefault());
     }
 
+    const emit_refreshBoards = (status: boolean) => {
+        dispatch(on_refreshBoards({status}));
+    }
+
     const emit_setBoardLoading = (board_id: string, status: boolean) => {
         dispatch(on_setBoardLoading({board_id, status}));
     }
@@ -38,15 +43,17 @@ export const useBoardStore = (): useBoardStore_I => {
 
     const emit_editTask = (boardId: string, task_id: string, title: string, description: string) => {
         dispatch(on_editTask({ boardId, task_id, title, description }));
+        emit_refreshBoards(true);
     }
 
     const emit_setBoardData = (boardId: string, tasks: Task_I[]) => {
 
         dispatch(on_setBoardData({ boardId, tasks }));
+        emit_refreshBoards(false);
 
     }
 
-    const emit_get_taskHandle = (board_id: string, task_id: string): Handle_Events_I => {
+    const emit_get_taskHandle = (task_id: string): Handle_Events_I => {
 
         const boardIndex: number = state.boards.findIndex((board) =>
                 board.tasks.some((task) => task.id === task_id)
@@ -75,6 +82,7 @@ export const useBoardStore = (): useBoardStore_I => {
         }
 
         dispatch(on_addTaskToBoard({ board_id, task }));
+        emit_refreshBoards(true);
     }
 
     return {
@@ -82,6 +90,7 @@ export const useBoardStore = (): useBoardStore_I => {
         state,
         // methods
         emit_restoreDefault,
+        emit_refreshBoards,
         emit_setBoardLoading,
         emit_setTaskLoading,
         emit_editTask,

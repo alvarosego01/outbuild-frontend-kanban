@@ -12,7 +12,13 @@ interface Props_I {
 }
 
 export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
-    const { emit_setBoardData, emit_get_taskHandle } = useBoardStore();
+    const {
+        state: {
+            onRefreshBoard
+        },
+        emit_setBoardData,
+        emit_get_taskHandle
+    } = useBoardStore();
     const { emit_CreateTaskModal, emit_EditModal } = useUiStore();
 
     const [isMounted, setIsMounted] = useState(false);
@@ -27,11 +33,10 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
     );
 
     const updateTasksList = (newTasks: Task_I[]) => {
-        // const uniqueTasks = newTasks.filter(
-        //     (newTask) => !tasksList.some((task) => task.id === newTask.id)
-        // );
-        // setTasksList((prev) => [...prev, ...uniqueTasks]);
-
+        const uniqueTasks = newTasks.filter(
+            (newTask) => !tasksList.some((task) => task.id === newTask.id)
+        );
+        setTasksList(newTasks);
     };
 
     const onDeleteTask = (taskId: string) => {
@@ -47,12 +52,13 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
     };
 
     useEffect(() => {
-        if (JSON.stringify(prevTasksRef.current) !== JSON.stringify(tasks)) {
-            console.log('tasks add', tasks);
+
+        if (onRefreshBoard) {
             updateTasksList(tasks);
             prevTasksRef.current = tasks;
         }
-    }, [tasks, setTasksList]);
+
+    }, [onRefreshBoard]);
 
     useEffect(() => {
         if (!isMounted) return;
@@ -82,11 +88,11 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
                 </button>
             </header>
             <ul ref={taskListRef} className="block h-full space-y-4 parentTasks">
-                {tasksList.map(( task ) => (
+                {tasksList.map((task) => (
                     <Task
                         key={task.id}
                         task={task}
-                        handle={emit_get_taskHandle(id, task.id)}
+                        handle={emit_get_taskHandle(task.id)}
                         onDeleteTask={() => onDeleteTask(task.id)}
                         onEditTask={() => onEditTask(task.id)}
                     />
