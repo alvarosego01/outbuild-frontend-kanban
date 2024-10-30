@@ -37,15 +37,15 @@ export const uiSlice = createSlice({
     name: "ui",
     initialState,
     reducers: {
-        on_toggleCreateTaskModal: (state, { payload }: PayloadAction<{ status: boolean; board_id: string }>) => {
+        on_CreateTaskModal: (state, { payload }: PayloadAction<{ status: boolean; board_id: string }>) => {
             const { status, board_id } = payload;
             state.modals.CreateTaskModal = { status, board_id };
         },
-        on_toggleEditModal: (state, { payload }: PayloadAction<{ status: boolean; task_id: string; board_id: string }>) => {
+        on_EditModal: (state, { payload }: PayloadAction<{ status: boolean; task_id: string; board_id: string }>) => {
             const { status, task_id, board_id } = payload;
             state.modals.EditModal = { status, task_id, board_id };
         },
-        on_toggleViewTaskModal: (state, { payload }: PayloadAction<{ status: boolean; task_id: string; board_id: string }>) => {
+        on_ViewTaskModal: (state, { payload }: PayloadAction<{ status: boolean; task_id: string; board_id: string }>) => {
             const { status, task_id, board_id } = payload;
             state.modals.ViewTaskModal = { status, task_id, board_id };
         },
@@ -58,8 +58,8 @@ export const uiSlice = createSlice({
 export const {
 
     on_restoreDefault,
-    on_toggleCreateTaskModal,
-    on_toggleEditModal,
-    on_toggleViewTaskModal
+    on_CreateTaskModal,
+    on_EditModal,
+    on_ViewTaskModal
 
 } = uiSlice.actions;

@@ -19,7 +19,7 @@ export interface Task_I {
     description: string;
     created_at: string;
     comments: Comment_I[];
-    status: TaskStatus_E;
+    // status: TaskStatus_E;
 }
 
 export interface Board_I {
@@ -31,6 +31,14 @@ export interface Board_I {
 export interface Handle_Events_I {
     isLoading: boolean;
     isInteracting: Boolean;
+}
+
+export interface Modal_Base_I {
+    status: boolean;
+    title?: string;
+    children?: React.ReactNode;
+    size?: "normal" | "big";
+    onClose?: () => void;
 }
 
 export * from './modals';

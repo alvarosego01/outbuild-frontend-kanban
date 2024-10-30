@@ -41,7 +41,7 @@ const initialState: boardState_I = {
                     description: 'Description 1',
                     created_at: '2021-09-09',
                     comments: [],
-                    status: TaskStatus_E.TODO,
+                    // status: TaskStatus_E.TODO,
                     handle: initialHandle
                 },
                 {
@@ -50,7 +50,7 @@ const initialState: boardState_I = {
                     description: 'Description 2',
                     created_at: '2021-09-09',
                     comments: [],
-                    status: TaskStatus_E.TODO,
+                    // status: TaskStatus_E.TODO,
                     handle: initialHandle
                 },
                 {
@@ -59,7 +59,7 @@ const initialState: boardState_I = {
                     description: 'Description 3',
                     created_at: '2021-09-09',
                     comments: [],
-                    status: TaskStatus_E.TODO,
+                    // status: TaskStatus_E.TODO,
                     handle: initialHandle
                 }
             ],
@@ -91,24 +91,42 @@ export const boardSlice = createSlice({
     initialState,
     reducers: {
 
-        on_setBoardLoading: (state, { payload }: PayloadAction<string>) => {
+        on_setBoardLoading: (state, { payload }: PayloadAction<{ board_id: string, status: boolean }>) => {
 
-            const index: number = state.boards.findIndex((board: Board_Slice_I) => board.id === payload);
-
-            state.boards[index].handle.isLoading = true;
+            const { board_id, status } = payload;
+            const index: number = state.boards.findIndex((board: Board_Slice_I) => board.id === board_id);
+            state.boards[index].handle.isLoading = status;
 
         },
-        on_editTask: (state, { payload }: PayloadAction<{ boardId: string, task: Task_I }>) => {
+        on_setTaskLoading: (state, { payload }: PayloadAction<{ task_id: string, status: boolean }>) => {
 
-            const { boardId, task } = payload;
-            const taskId = task.id;
+            console.log('payload', payload);
+
+            const { task_id, status } = payload;
+            let aux_boardIndex: number = -1;
+            let aux_taskIndex: number = -1;
+            for (const [i, element] of state.boards.entries()) {
+                aux_taskIndex = element.tasks.findIndex((task: Task_Slice_I) => task.id === task_id);
+                if (aux_taskIndex !== -1) {
+                    aux_boardIndex = i;
+                    break;
+                }
+            }
+            if (aux_boardIndex === -1) return;
+            state.boards[aux_boardIndex].tasks[aux_taskIndex].handle.isLoading = status;
+
+        },
+        on_editTask: (state, { payload }: PayloadAction<{ boardId: string, task_id: string, title: string, description: string }>) => {
+
+            const { boardId, task_id, title, description } = payload;
+
             const boardIndex: number = state.boards.findIndex((board: Board_Slice_I) => board.id === boardId);
-
-            const taskIndex: number = state.boards[boardIndex].tasks.findIndex((task: Task_Slice_I) => task.id === taskId);
+            const taskIndex: number = state.boards[boardIndex].tasks.findIndex((task: Task_Slice_I) => task.id === task_id);
 
             state.boards[boardIndex].tasks[taskIndex] = {
-                handle: initialHandle,
-                ...task
+                ...state.boards[boardIndex].tasks[taskIndex],
+                title,
+                description
             };
 
         },
@@ -116,6 +134,8 @@ export const boardSlice = createSlice({
 
             const { boardId, tasks } = payload;
             const boardIndex: number = state.boards.findIndex((board: Board_Slice_I) => board.id === boardId);
+
+            const aux_board: Board_I = state.boards[boardIndex];
 
             state.boards[boardIndex].tasks = tasks.map((task: Task_I) => ({
                 handle: initialHandle,
@@ -149,6 +169,7 @@ export const boardSlice = createSlice({
 export const {
     on_restoreDefault,
     on_setBoardLoading,
+    on_setTaskLoading,
     on_editTask,
     on_setBoardData,
     on_addTaskToBoard

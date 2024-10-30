@@ -2,16 +2,15 @@
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { Reducers_I } from "../store";
-import { on_restoreDefault, on_toggleCreateTaskModal, on_toggleEditModal, on_toggleViewTaskModal, uiState_I } from "../reducers/ui/uiSlice";
-
+import { on_CreateTaskModal, on_EditModal, on_restoreDefault, on_ViewTaskModal, uiState_I } from "../reducers/ui/uiSlice";
 
 interface useHookStore_I {
     state: uiState_I;
 
     emit_restoreDefault: () => void;
-    emit_toggleCreateTaskModal: (status: boolean, board_id: string) => void;
-    emit_toggleEditModal: (status: boolean, task_id: string, board_id: string) => void;
-    emit_toggleViewTaskModal: (status: boolean, task_id: string, board_id: string) => void;
+    emit_CreateTaskModal: (status: boolean, board_id: string) => void;
+    emit_EditModal: (status: boolean, task_id: string, board_id: string) => void;
+    emit_ViewTaskModal: (status: boolean, task_id: string, board_id: string) => void;
 
 }
 
@@ -25,24 +24,24 @@ export const useUiStore = (): useHookStore_I => {
         dispatch(on_restoreDefault());
     }
 
-    const emit_toggleCreateTaskModal = (status: boolean, board_id: string) => {
-        dispatch(on_toggleCreateTaskModal({ status, board_id }));
+    const emit_CreateTaskModal = (status: boolean, board_id: string) => {
+        dispatch(on_CreateTaskModal({ status, board_id }));
     };
 
-    const emit_toggleEditModal = (status: boolean, task_id: string, board_id: string) => {
-        dispatch(on_toggleEditModal({ status, task_id, board_id }));
+    const emit_EditModal = (status: boolean, task_id: string, board_id: string) => {
+        dispatch(on_EditModal({ status, task_id, board_id }));
     };
 
-    const emit_toggleViewTaskModal = (status: boolean, task_id: string, board_id: string) => {
-        dispatch(on_toggleViewTaskModal({ status, task_id, board_id }));
+    const emit_ViewTaskModal = (status: boolean, task_id: string, board_id: string) => {
+        dispatch(on_ViewTaskModal({ status, task_id, board_id }));
     };
 
     return {
         state,
         emit_restoreDefault,
-        emit_toggleCreateTaskModal,
-        emit_toggleEditModal,
-        emit_toggleViewTaskModal
+        emit_CreateTaskModal,
+        emit_EditModal,
+        emit_ViewTaskModal
     };
 
 }

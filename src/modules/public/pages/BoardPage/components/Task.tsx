@@ -1,20 +1,24 @@
 
-import { FC } from "react"
-import { Task_I } from "../../../../../core/interfaces"
+import { FC, useEffect } from "react"
+import { Handle_Events_I, Task_I } from "../../../../../core/interfaces"
 
 
 interface Props_I {
     task: Task_I;
-    onDeleteTask: (id: string) => void;
-    onEditTask: (id: string) => void;
+    handle: Handle_Events_I,
+    onDeleteTask: () => void;
+    onEditTask: () => void;
 }
 
 export const Task: FC<Props_I> = ({
     task,
+    handle,
     onDeleteTask,
     onEditTask
 }) => {
     const { title, description, created_at } = task;
+
+    const { isLoading, isInteracting } = handle;
 
     return (
         <div className="p-4 bg-white shadow-sm kanban-item h-fit hover:cursor-pointer dark:bg-gray-800 rounded-xl">
@@ -28,13 +32,24 @@ export const Task: FC<Props_I> = ({
                 <div className="flex flex-row buttonsSection gap-x-2">
 
                     <button
-                        onClick={() => onEditTask(task.id)}
+                        onClick={() => onEditTask()}
                         className="flex items-center justify-center transition bg-white border border-gray-200 rounded-full w-7 h-7 hover:border-gray-300 text-violet-400">
-                        <span className="sr-only">Add</span>
-                        <i className=' bx bx-edit-alt'></i>
+                        <span className="sr-only">Edit</span>
+
+                         {
+                            !isLoading ? (
+                                <i className=' bx bx-edit-alt'></i>
+                            ) : (
+                                <svg className="w-4 h-4 fill-current mr-s_7.5 animate-spin shrink-0" viewBox="0 0 16 16">
+                                    <path d="M8 16a7.928 7.928 0 01-3.428-.77l.857-1.807A6.006 6.006 0 0014 8c0-3.309-2.691-6-6-6a6.006 6.006 0 00-5.422 8.572l-1.806.859A7.929 7.929 0 010 8c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z" />
+                                </svg>
+                            )
+                        }
+
+
                     </button>
                     <button
-                        onClick={() => onDeleteTask(task.id)}
+                        onClick={() => onDeleteTask()}
                         className="flex items-center justify-center text-red-400 transition bg-white border border-gray-200 rounded-full w-7 h-7 hover:border-gray-300">
                         <span className="sr-only">Delete</span>
                         <i className='bx bx-trash'  ></i>
