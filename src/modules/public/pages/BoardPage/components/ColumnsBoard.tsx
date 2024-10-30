@@ -8,75 +8,59 @@ import { useUiStore } from "../../../../../core/store";
 
 interface Props_I {
     board: Board_I;
-    onHandle: Handle_Events_I
+    onHandle: Handle_Events_I;
 }
 
-export const ColumnsBoard: FC<Props_I> = ({
-    board,
-    onHandle
-}) => {
+export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
+    const { emit_setBoardData, emit_get_taskHandle } = useBoardStore();
+    const { emit_CreateTaskModal, emit_EditModal } = useUiStore();
 
-    const {
-        emit_setBoardData,
-        emit_get_taskHandle
-
-    } = useBoardStore();
-
-    const {
-
-        emit_CreateTaskModal,
-        emit_EditModal
-
-    } = useUiStore();
-
-
-    const [isMounted, setisMounted] = useState(false);
-
-    const { title, tasks, id, } = board;
+    const [isMounted, setIsMounted] = useState(false);
+    const { title, tasks, id } = board;
     const { isInteracting, isLoading } = onHandle;
+
+    const prevTasksRef = useRef<Task_I[]>(tasks);
 
     const [taskListRef, tasksList, setTasksList] = useDragAndDrop<HTMLUListElement, Task_I>(
         tasks,
         { group: "taskGroup" }
     );
 
+    const updateTasksList = (newTasks: Task_I[]) => {
+        // const uniqueTasks = newTasks.filter(
+        //     (newTask) => !tasksList.some((task) => task.id === newTask.id)
+        // );
+        // setTasksList((prev) => [...prev, ...uniqueTasks]);
+
+    };
+
     const onDeleteTask = (taskId: string) => {
-
         setTasksList((prev) => prev.filter((task) => task.id !== taskId));
-
     };
 
     const onEditTask = (taskId: string) => {
-
         emit_EditModal(true, taskId, id);
-
     };
 
     const onAddNewTask = (board_id: string) => {
-
         emit_CreateTaskModal(true, board_id);
-
-    }
-
-    useEffect(() => {
-
-        // emit_setBoardData(id, tasksList);
-        setTasksList(tasks);
-
-    }, [tasks]);
-
+    };
 
     useEffect(() => {
+        if (JSON.stringify(prevTasksRef.current) !== JSON.stringify(tasks)) {
+            console.log('tasks add', tasks);
+            updateTasksList(tasks);
+            prevTasksRef.current = tasks;
+        }
+    }, [tasks, setTasksList]);
 
+    useEffect(() => {
         if (!isMounted) return;
         emit_setBoardData(id, tasksList);
-
-        console.log('asigna');
-
     }, [tasksList]);
 
     useEffect(() => {
-        setisMounted(true);
+        setIsMounted(true);
     }, []);
 
     return (
