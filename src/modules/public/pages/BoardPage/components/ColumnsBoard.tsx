@@ -14,9 +14,11 @@ interface Props_I {
 export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
     const {
         state: {
-            onRefreshBoard
+            onRefreshBoard,
+            onDragg
         },
         emit_setBoardData,
+        emit_onDragg,
         emit_get_taskHandle
     } = useBoardStore();
     const { emit_CreateTaskModal, emit_EditModal } = useUiStore();
@@ -30,7 +32,16 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
 
     const [taskListRef, tasksList, setTasksList] = useDragAndDrop<HTMLUListElement, Task_I>(
         tasks,
-        { group: "taskGroup" }
+      {
+            group: "taskGroup",
+            onDragstart(data, state) {
+                emit_onDragg(true);
+            },
+            onDragend(data) {
+                emit_onDragg(false);
+
+            },
+        }
     );
 
     const updateTasksList = (newTasks: Task_I[]) => {
@@ -71,8 +82,9 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
     }, []);
 
     return (
-        <div className="p-8 bg-gray-200 kanban-board col-span-full rounded-xl sm:col-span-6 xl:col-span-4">
-            <header className="flex justify-between mb-6">
+        <div className="flex flex-col h-full p-8 space-y-4 bg-gray-200 kanban-board col-span-full rounded-xl sm:col-span-6 xl:col-span-4">
+
+            <header className="flex justify-between ">
                 <h2 className="font-semibold text-gray-800 truncate dark:text-gray-100">{title}</h2>
                 <button onClick={() => onAddNewTask(id)} className="ml-2 shrink-0 text-violet-500 hover:text-violet-600 dark:hover:text-violet-400">
                     {
@@ -88,7 +100,8 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
                     }
                 </button>
             </header>
-            <ul ref={taskListRef} className="block h-full space-y-4 parentTasks">
+
+            <ul ref={taskListRef} className={`flex flex-col space-y-4 box-border rounded-xl	h-full border-3 ${onDragg ? 'border-dashed border-gray-300' : '' } parentTasks  `}>
                 {tasksList.map((task) => (
                     <Task
                         key={task.id}
@@ -99,6 +112,6 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
                     />
                 ))}
             </ul>
-        </div>
+            </div>
     );
 };

@@ -14,6 +14,7 @@ interface Board_Slice_I extends Board_I {
 
 export interface boardState_I {
     onRefreshBoard: boolean;
+    onDragg: boolean;
     boards: Board_Slice_I[];
 }
 
@@ -32,6 +33,7 @@ const randomid = () => {
 const initialState: boardState_I = {
 
     onRefreshBoard: false,
+    onDragg: false,
     boards: [
         {
             id: '1',
@@ -96,6 +98,11 @@ export const boardSlice = createSlice({
         on_refreshBoards: (state, { payload }: PayloadAction<{ status: boolean }>) => {
 
             state.onRefreshBoard = payload.status;
+
+        },
+        on_dragg: (state, { payload }: PayloadAction<{ status: boolean }>) => {
+
+            state.onDragg = payload.status;
 
         },
         on_setBoardLoading: (state, { payload }: PayloadAction<{ board_id: string, status: boolean }>) => {
@@ -176,6 +183,7 @@ export const {
     on_setBoardLoading,
     on_setTaskLoading,
     on_editTask,
+    on_dragg,
     on_refreshBoards,
     on_setBoardData,
     on_addTaskToBoard

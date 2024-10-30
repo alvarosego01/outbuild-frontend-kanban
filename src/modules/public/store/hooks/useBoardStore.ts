@@ -1,6 +1,6 @@
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { boardState_I, on_addTaskToBoard, on_editTask, on_refreshBoards, on_restoreDefault, on_setBoardData, on_setBoardLoading, on_setTaskLoading  } from '../reducers/boardSlice';
+import { boardState_I, on_addTaskToBoard, on_dragg, on_editTask, on_refreshBoards, on_restoreDefault, on_setBoardData, on_setBoardLoading, on_setTaskLoading  } from '../reducers/boardSlice';
 import { Reducers_I } from "../../../../core/store/store";
 import { Handle_Events_I, Task_I } from "../../../../core/interfaces";
 
@@ -16,6 +16,7 @@ interface useBoardStore_I {
     emit_addTaskToBoard: (board_id: string, title: string, description: string) => void;
     emit_get_taskHandle: ( task_id: string) => Handle_Events_I;
     emit_refreshBoards: (status: boolean) => void;
+    emit_onDragg: (status: boolean) => void;
 
 }
 
@@ -27,6 +28,10 @@ export const useBoardStore = (): useBoardStore_I => {
 
     const emit_restoreDefault = () => {
         dispatch(on_restoreDefault());
+    }
+
+    const emit_onDragg = (status: boolean) => {
+        dispatch(on_dragg({status}))
     }
 
     const emit_refreshBoards = (status: boolean) => {
@@ -94,6 +99,7 @@ export const useBoardStore = (): useBoardStore_I => {
         emit_setBoardLoading,
         emit_setTaskLoading,
         emit_editTask,
+        emit_onDragg,
         emit_get_taskHandle,
         emit_setBoardData,
         emit_addTaskToBoard
