@@ -21,7 +21,7 @@ export const Task: FC<Props_I> = ({
     const { isLoading, isInteracting } = handle;
 
     return (
-        <div className="p-4 bg-white shadow-sm kanban-item h-fit hover:cursor-pointer dark:bg-gray-800 rounded-xl">
+        <div className="p-4 bg-white shadow-sm kanban-item h-fit hover:cursor-grab hover:bg-indigo-100 rounded-xl ">
             <div className="mb-3">
                 <h2 className="mb-1 font-semibold text-gray-800 dark:text-gray-100">{title}</h2>
                 <div className="text-sm">{description}</div>

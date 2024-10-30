@@ -22,6 +22,7 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
     const { emit_CreateTaskModal, emit_EditModal } = useUiStore();
 
     const [isMounted, setIsMounted] = useState(false);
+
     const { title, tasks, id } = board;
     const { isInteracting, isLoading } = onHandle;
 
