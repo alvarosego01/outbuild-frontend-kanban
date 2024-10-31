@@ -32,7 +32,7 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
 
     const [taskListRef, tasksList, setTasksList] = useDragAndDrop<HTMLUListElement, Task_I>(
         tasks,
-      {
+        {
             group: "taskGroup",
             onDragstart(data, state) {
                 emit_onDragg(true);
@@ -101,7 +101,7 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
                 </button>
             </header>
 
-            <ul ref={taskListRef} className={`flex flex-col space-y-4 box-border rounded-xl	h-full border-3 ${onDragg ? 'border-dashed border-gray-300' : '' } parentTasks  `}>
+            <ul ref={taskListRef} className={`flex flex-col space-y-4 box-border rounded-xl	h-full border-3 ${onDragg ? 'border-dashed border-gray-300' : ''} parentTasks  `}>
                 {tasksList.map((task) => (
                     <Task
                         key={task.id}
@@ -112,6 +112,6 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
                     />
                 ))}
             </ul>
-            </div>
+        </div>
     );
 };

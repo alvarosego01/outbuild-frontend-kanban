@@ -55,6 +55,7 @@ export const useBoardStore = (): useBoardStore_I => {
 
         dispatch(on_setBoardData({ boardId, tasks }));
         emit_refreshBoards(false);
+        // emit_onDragg(false);
 
     }
 
