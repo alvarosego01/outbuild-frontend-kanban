@@ -9,7 +9,7 @@ export interface uiState_I {
     modals: {
         CreateTaskModal: CreateTask_Modal_I;
         EditModal: EditModal_I;
-        ViewTaskModal: ViewTask_Modal_I;
+        // ViewTaskModal: ViewTask_Modal_I;
     }
 
 }
@@ -25,11 +25,11 @@ const initialState: uiState_I = {
             board_id: '',
             status: false
         },
-        ViewTaskModal: {
-            task_id: '',
-            board_id: '',
-            status: false
-        }
+        // ViewTaskModal: {
+        //     task_id: '',
+        //     board_id: '',
+        //     status: false
+        // }
     }
 }
 
@@ -45,10 +45,10 @@ export const uiSlice = createSlice({
             const { status, task_id, board_id } = payload;
             state.modals.EditModal = { status, task_id, board_id };
         },
-        on_ViewTaskModal: (state, { payload }: PayloadAction<{ status: boolean; task_id: string; board_id: string }>) => {
-            const { status, task_id, board_id } = payload;
-            state.modals.ViewTaskModal = { status, task_id, board_id };
-        },
+        // on_ViewTaskModal: (state, { payload }: PayloadAction<{ status: boolean; task_id: string; board_id: string }>) => {
+        //     const { status, task_id, board_id } = payload;
+        //     state.modals.ViewTaskModal = { status, task_id, board_id };
+        // },
         on_restoreDefault: (state) => {
             state = initialState;
         },
@@ -60,6 +60,6 @@ export const {
     on_restoreDefault,
     on_CreateTaskModal,
     on_EditModal,
-    on_ViewTaskModal
+    // on_ViewTaskModal
 
 } = uiSlice.actions;

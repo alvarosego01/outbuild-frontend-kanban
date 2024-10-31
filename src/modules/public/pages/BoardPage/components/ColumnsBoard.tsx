@@ -1,10 +1,10 @@
+
 import { FC, useEffect, useRef, useState } from "react";
 import { Board_I, Handle_Events_I, Task_I } from "../../../../../core/interfaces";
 import { Task } from "./Task";
 import { useDragAndDrop } from "@formkit/drag-and-drop/react";
 import { useBoardStore } from "../../../store/hooks";
 import { useUiStore } from "../../../../../core/store";
-
 
 interface Props_I {
     board: Board_I;
@@ -21,7 +21,13 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
         emit_onDragg,
         emit_get_taskHandle
     } = useBoardStore();
-    const { emit_CreateTaskModal, emit_EditModal } = useUiStore();
+
+    const {
+        emit_CreateTaskModal,
+        // emit_ViewTaskModal,
+        emit_EditModal
+
+    } = useUiStore();
 
     const [isMounted, setIsMounted] = useState(false);
 
@@ -59,6 +65,10 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
         emit_EditModal(true, taskId, id);
     };
 
+    // const onViewTask = (task_id: string) => {
+    //     emit_ViewTaskModal(true, task_id, id);
+    // }
+
     const onAddNewTask = (board_id: string) => {
         emit_CreateTaskModal(true, board_id);
     };
@@ -86,7 +96,7 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
 
             <header className="flex justify-between ">
                 <h2 className="font-semibold text-gray-800 truncate dark:text-gray-100">{title}</h2>
-                <button onClick={() => onAddNewTask(id)} className="ml-2 shrink-0 text-violet-500 hover:text-violet-600 dark:hover:text-violet-400">
+                <button onClick={() => onAddNewTask(id)} className="ml-2 shrink-0 text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 tooltip" data-tip="Add new task">
                     {
                         !isLoading ? (
                             <svg className="fill-current" width="16" height="16" viewBox="0 0 16 16">
