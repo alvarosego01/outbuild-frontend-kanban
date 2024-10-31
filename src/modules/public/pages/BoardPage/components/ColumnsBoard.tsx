@@ -111,7 +111,7 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
                 </button>
             </header>
 
-            <ul ref={taskListRef} className={`flex flex-col space-y-4 box-border rounded-xl	h-full border-3 ${onDragg ? 'border-dashed border-gray-300' : ''} parentTasks  `}>
+            <ul ref={taskListRef} className={`flex flex-col space-y-4 box-border min-h-10 rounded-xl	h-full border-3 ${onDragg ? 'border-dashed border-gray-300' : ''} parentTasks  `}>
                 {tasksList.map((task) => (
                     <Task
                         key={task.id}

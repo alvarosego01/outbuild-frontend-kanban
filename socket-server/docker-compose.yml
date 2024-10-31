@@ -1,0 +1,24 @@
+version: '3'
+services:
+
+
+  api:
+    build:
+      context: .
+    ports:
+      - ${PORT}:${PORT}
+    restart: always
+    volumes:
+      - ./src:/usr/src/app/src
+      - /usr/src/app/node_modules
+    env_file:
+      - ./.env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+
+    networks:
+      - socket-server
+
+networks:
+  socket-server:
+    driver: bridge
