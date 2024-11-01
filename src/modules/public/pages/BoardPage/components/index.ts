@@ -1,3 +1,4 @@
+export { CursorInteraction } from "./CursorInteraction";
 
 
 export { AddTaskModal } from "./AddTaskModal";

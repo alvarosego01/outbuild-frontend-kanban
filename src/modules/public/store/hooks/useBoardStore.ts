@@ -1,12 +1,12 @@
 
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { boardState_I, on_addTaskToBoard, on_dragg, on_editTask, on_refreshBoards, on_restoreDefault, on_setBoardData, on_setBoardLoading, on_setTaskLoading  } from '../reducers/boardSlice';
+import { BoardState_I, on_addTaskToBoard, on_dragg, on_editTask, on_refreshBoards, on_restoreDefault, on_setBoardData, on_setBoardLoading, on_setTaskLoading  } from '../reducers/boardSlice';
 import { Reducers_I } from "../../../../core/store/store";
 import { Handle_Events_I, Task_I } from "../../../../core/interfaces";
 
 interface useBoardStore_I {
 
-    state: boardState_I;
+    state: BoardState_I;
 
     emit_restoreDefault: () => void;
     emit_setBoardLoading: (boardId: string, stastus: boolean) => void;
@@ -24,7 +24,7 @@ export const useBoardStore = (): useBoardStore_I => {
 
     const dispatch = useDispatch();
 
-    const state = useSelector<Reducers_I, boardState_I>(({ _public }) => _public.board, shallowEqual);
+    const state = useSelector<Reducers_I, BoardState_I>(({ _public }) => _public.board, shallowEqual);
 
     const emit_restoreDefault = () => {
         dispatch(on_restoreDefault());

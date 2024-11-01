@@ -2,7 +2,7 @@
 
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createSlice } from "@reduxjs/toolkit";
-import { CreateTask_Modal_I, EditModal_I, ViewTask_Modal_I } from '../../../interfaces';
+import { CreateTask_Modal_I, EditModal_I } from '../../interfaces';
 
 
 export interface uiState_I {

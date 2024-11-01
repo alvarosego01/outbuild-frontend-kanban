@@ -1,7 +1,7 @@
 
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Board_I, Handle_Events_I, Task_I, TaskStatus_E } from "../../../../core/interfaces";
+import { Board_I, ConnectedUser_I, Handle_Events_I, Task_I } from "../../../../core/interfaces";
 
 interface Task_Slice_I extends Task_I {
     handle: Handle_Events_I;
@@ -12,10 +12,11 @@ interface Board_Slice_I extends Board_I {
     tasks: Task_Slice_I[];
 }
 
-export interface boardState_I {
+export interface BoardState_I {
     onRefreshBoard: boolean;
     onDragg: boolean;
     boards: Board_Slice_I[];
+
 }
 
 const initialHandle: Handle_Events_I = {
@@ -30,7 +31,7 @@ const randomid = () => {
 
 }
 
-const initialState: boardState_I = {
+const initialState: BoardState_I = {
 
     onRefreshBoard: false,
     onDragg: false,
@@ -40,30 +41,27 @@ const initialState: boardState_I = {
             title: 'To Do',
             tasks: [
                 {
-                    id: randomid(),
+                    id: 'aaa_1234',
                     title: 'Task 1',
                     description: 'Description 1',
                     created_at: '2021-09-09',
                     comments: [],
-                    // status: TaskStatus_E.TODO,
                     handle: initialHandle
                 },
                 {
-                    id: randomid(),
+                    id: 'bbb_1234',
                     title: 'Task 2',
                     description: 'Description 2',
                     created_at: '2021-09-09',
                     comments: [],
-                    // status: TaskStatus_E.TODO,
                     handle: initialHandle
                 },
                 {
-                    id: randomid(),
+                    id: 'ccc_1234',
                     title: 'Task 3',
                     description: 'Description 3',
                     created_at: '2021-09-09',
                     comments: [],
-                    // status: TaskStatus_E.TODO,
                     handle: initialHandle
                 }
             ],
@@ -87,6 +85,7 @@ const initialState: boardState_I = {
             handle: initialHandle,
         }
     ],
+
 
 }
 
@@ -155,8 +154,6 @@ export const boardSlice = createSlice({
             }));
 
         },
-
-
         on_addTaskToBoard: (state, { payload }: PayloadAction<{ board_id: string, task: Task_I }>) => {
 
             const { board_id, task } = payload;
@@ -170,6 +167,7 @@ export const boardSlice = createSlice({
             state.boards[index].handle = initialHandle;
 
         },
+
         on_restoreDefault: (state) => {
 
             state = initialState;

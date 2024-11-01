@@ -2,7 +2,7 @@
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { Reducers_I } from "../store";
-import { on_CreateTaskModal, on_EditModal, on_restoreDefault, uiState_I } from "../reducers/ui/uiSlice";
+import { uiState_I, on_restoreDefault, on_CreateTaskModal, on_EditModal } from "../reducers/uiSlice";
 
 interface useHookStore_I {
     state: uiState_I;

@@ -5,6 +5,7 @@ import { Task } from "./Task";
 import { useDragAndDrop } from "@formkit/drag-and-drop/react";
 import { useBoardStore } from "../../../store/hooks";
 import { useUiStore } from "../../../../../core/store";
+import { useCursorTracking } from "../../../../../core/sockets/hooks";
 
 interface Props_I {
     board: Board_I;
@@ -21,6 +22,10 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
         emit_onDragg,
         emit_get_taskHandle
     } = useBoardStore();
+
+    // const {
+    //     handleMouseMove
+    // } = useCursorTracking()
 
     const {
         emit_CreateTaskModal,
@@ -64,10 +69,6 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
     const onEditTask = (taskId: string) => {
         emit_EditModal(true, taskId, id);
     };
-
-    // const onViewTask = (task_id: string) => {
-    //     emit_ViewTaskModal(true, task_id, id);
-    // }
 
     const onAddNewTask = (board_id: string) => {
         emit_CreateTaskModal(true, board_id);

@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import { uiSlice } from ".";
+import { interactionsSlice, uiSlice } from ".";
 
 import { Core_Reducers_I } from "./interfaces";
 import { Public_Reducers_I } from "../../modules/public/store/interfaces";
@@ -15,6 +15,7 @@ const sessionReducer = combineReducers({
 
 const globalReducer = combineReducers({
     ui: uiSlice.reducer,
+    interactions: interactionsSlice.reducer,
     // session: sessionReducer,
 });
 

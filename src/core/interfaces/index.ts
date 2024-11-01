@@ -41,4 +41,17 @@ export interface Modal_Base_I {
     onClose?: () => void;
 }
 
+export interface CursorPosition_I {
+    x: number;
+    y: number;
+}
+
+export interface ConnectedUser_I {
+
+    id: string;
+    position?: CursorPosition_I;
+    username?: string;
+
+}
+
 export * from './modals';
