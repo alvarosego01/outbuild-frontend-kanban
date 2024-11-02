@@ -1,6 +1,11 @@
 
 # Outbuild Frontend Assessment - Real-Time Collaborative Task Board
 
+This project was developed by Álvaro Segovia.
+
+- **LinkedIn**: [LinkedIn Profile](https://www.linkedin.com/in/alvarosego01/)
+- **Email**: alvarosego01@gmail.com
+
 This project is a web application that allows multiple users to manage tasks collaboratively in real-time. The application simulates a Kanban board with columns "To Do," "In Progress," and "Done," where users can create, edit, delete, and move tasks while viewing other users' interactions in real-time. This project was developed as part of a technical assessment for Outbuild.
 
 ## Key Technologies
@@ -32,6 +37,10 @@ The project follows a modular structure, facilitating scalability and maintenanc
 - **Real-Time Collaboration**: Interactions are visible to all connected clients, enabling a collaborative experience.
 - **User Presence**: Each connected user receives a random name (User-number-random) to identify who is performing each action.
 - **Interaction Cursor**: An indigo-colored cursor displays the movements and actions of other users in real-time, enhancing usability and the visual collaborative experience.
+
+## Prerequisites
+
+- Docker Desktop suite must be installed on the computer to enable the application to function correctly, allowing the socket server and client to run without issues.
 
 ## Environment Setup
 
