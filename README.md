@@ -55,7 +55,7 @@ To run the project, first configure the environment variable in the `.env` file,
 2. Run the following command to start the project in Docker, ensuring portability on any machine:
 
    ```bash
-   docker-compose up --build
+   docker compose up --build
    ```
 
    This command will start both the client and the socket server, allowing full project execution.
