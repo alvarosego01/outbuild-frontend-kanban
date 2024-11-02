@@ -4,8 +4,10 @@ services:
   sockets:
     build:
       context: ./socket-server
-    # ports:
-      # - 3150:3150
+    networks:
+      - outbuild-frontend-kanban
+    ports:
+      - 3150:3150
     restart: always
 
   client:
