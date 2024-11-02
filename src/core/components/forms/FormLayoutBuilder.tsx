@@ -6,7 +6,6 @@ import { LayoutRow_I, SelectField_Props_I } from "./interfaces"
 
 interface FormLayoutBuilder_Props_I {
     rows: LayoutRow_I[]
-    // ref?: React.RefObject<HTMLInputElement>;
 }
 
 export const FormLayoutBuilder: FC<FormLayoutBuilder_Props_I> = ({ rows }) => {

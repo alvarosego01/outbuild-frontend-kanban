@@ -15,7 +15,6 @@ export const useFormInitData = <T = any>(data: LayoutRow_I[], init_fieldValues?:
 
             aux_initial[field.props.name] = init_fieldValues?.[field.props.name] || '';
             let schema_fields = Yup.string();
-            // let schema_select = Yup.mixed();
 
             if (!field.props.validation_rules) {
 
@@ -25,9 +24,7 @@ export const useFormInitData = <T = any>(data: LayoutRow_I[], init_fieldValues?:
             for (const r of field.props.validation_rules) {
 
                 const rule: ValidationRule_I = r;
-
                 schema_fields = get_Validation(rule, schema_fields);
-
 
             }
 

@@ -21,12 +21,12 @@ export const useSocket = () => {
     const [isConnected, setIsConnected] = useState(false);
 
     if (!socketInstance) {
-        // Solo inicializar socket si no existe una instancia previa
+
         socketInstance = io(SOCKET_URL, { withCredentials: true });
     }
 
     useEffect(() => {
-        const socket = socketInstance!; // Garantizamos que socket no es null aquí
+        const socket = socketInstance!;
 
         const handleConnect = () => {
             console.log("Connected to Socket.IO server");
@@ -50,7 +50,6 @@ export const useSocket = () => {
             emit_setUsers(userList);
         };
 
-        // Configurar listeners solo una vez
         socket.on("connect", handleConnect);
         socket.on("current_user", handleCurrentUser);
         socket.on("disconnect", handleDisconnect);

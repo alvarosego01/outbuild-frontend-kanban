@@ -23,7 +23,6 @@ export const BlankModal: FC<Modal_Base_I> = ({
     }, [status]);
 
     const closeModal = () => {
-        // console.log('el status', status);
         modalRef.current?.close();
         setTimeout(() => {
             onClose && onClose();

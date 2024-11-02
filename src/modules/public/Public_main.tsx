@@ -1,9 +1,8 @@
 import { useState } from "react"
 import { Public_routes } from "./public.routes";
-import { Footer, Header } from "../../core/components";
+// import { Footer, Header } from "../../core/components";
 
-
- export const Public_main = () => {
+export const Public_main = () => {
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -29,7 +28,6 @@ import { Footer, Header } from "../../core/components";
         </div>
     )
 }
-
 
 export default Public_main
 

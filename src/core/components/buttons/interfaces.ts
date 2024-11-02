@@ -4,7 +4,7 @@ import { RefObject } from "react";
 
 export interface Button_I {
     label?: string;
-    onClick: () => void; // Añadir esta línea
+    onClick: () => void;
     className?: string;
     disabled?: boolean;
     isLoading?: boolean;
@@ -13,6 +13,4 @@ export interface Button_I {
 
 
     ref?: RefObject<HTMLButtonElement>;
-    // "aria-haspopup"?: string;
-    // "aria-expanded"?: boolean;
 }

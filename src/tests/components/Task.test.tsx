@@ -72,4 +72,5 @@ describe('Task Component', () => {
         const loadingSpinner = screen.queryByRole('img', { hidden: true });
         expect(loadingSpinner).not.toBeInTheDocument();
     });
+
 });

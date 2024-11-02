@@ -115,10 +115,8 @@ export default {
         },
     },
     plugins: [
-        // eslint-disable-next-line global-require
         require('@tailwindcss/forms'),
-              require("daisyui"),
-        // add custom variant for expanding sidebar
+        require("daisyui"),
         plugin(({ addVariant, e }) => {
             addVariant('sidebar-expanded', ({ modifySelectors, separator }) => {
                 modifySelectors(({ className }) => `.sidebar-expanded .${e(`sidebar-expanded${separator}${className}`)}`);

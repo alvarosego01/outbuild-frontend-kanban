@@ -31,17 +31,17 @@ const type_array_default = [
 export type Validations_Type = typeof type_array_default[number];
 
 interface ConditionalRule {
-    key: string; // La clave del campo del formulario sobre el que se basa la condición
-    is: any; // El valor que activa la condición
-    then: ValidationRule_I; // Regla a aplicar si se cumple la condición
-    otherwise: ValidationRule_I; // Regla a aplicar si no se cumple la condición
+    key: string;
+    is: any;
+    then: ValidationRule_I;
+    otherwise: ValidationRule_I;
 }
 
 export interface ValidationRule_I {
     type: Validations_Type;
     message?: string;
     value?: number | string;
-    conditional?: ConditionalRule; // Añadido para soportar condiciones
+    conditional?: ConditionalRule;
 }
 
 export interface FieldValue_I {

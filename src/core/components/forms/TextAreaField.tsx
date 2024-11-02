@@ -10,11 +10,10 @@ export const TextAreaField = ({ label, parent_class: parent_className, ...props 
 
     const [field, meta] = useField(props);
 
-    // const isRequired = props.validation_rules?.some(rule => rule.type === "required") || false;
-        const isRequired = props.validation_rules?.some(rule => (is_required(rule.type))) || false;
+    const isRequired = props.validation_rules?.some(rule => (is_required(rule.type))) || false;
 
 
-        const fieldState = (): string => {
+    const fieldState = (): string => {
 
         if (meta.error && meta.touched) return 'border-rose-300';
 
