@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useUiStore } from '@core/store/hooks/useUiStore';
 import { useBoardStore } from '@src/modules/public/store/hooks/useBoardStore';
@@ -51,42 +51,51 @@ describe('EditTaskModal Component', () => {
         jest.clearAllMocks();
     });
 
-    test('renders modal title and instructions', () => {
-        render(<EditTaskModal />);
+    test('renders modal title and instructions', async () => {
+        await act(async () => {
+            render(<EditTaskModal />);
+        });
 
         expect(screen.getByText(/Edit task/i)).toBeInTheDocument();
         expect(screen.getByText(/Complete the following fields to edit a task/i)).toBeInTheDocument();
     });
 
-    test('pre-fills the form with task data when modal is open', () => {
-        render(<EditTaskModal />);
+    test('pre-fills the form with task data when modal is open', async () => {
+        await act(async () => {
+            render(<EditTaskModal />);
+        });
 
         expect(screen.getByLabelText(/Title task/i)).toHaveValue('Test Task');
         expect(screen.getByLabelText(/Description/i)).toHaveValue('Task Description');
     });
 
     test('shows validation errors when required fields are empty', async () => {
-        render(<EditTaskModal />);
+        await act(async () => {
+            render(<EditTaskModal />);
+        });
 
         fireEvent.change(screen.getByLabelText(/Title task/i), { target: { value: '' } });
         fireEvent.change(screen.getByLabelText(/Description/i), { target: { value: '' } });
-        fireEvent.click(screen.getByText(/Save/i));
+
+        await waitFor(() => {
+            fireEvent.click(screen.getByText(/Save/i));
+        });
 
         expect(await screen.findAllByText(/Is required/i)).toHaveLength(2);
     });
 
-    test('calls emit_editTask with correct arguments on form submission', () => {
-        render(<EditTaskModal />);
+    test('calls emit_editTask with correct arguments on form submission', async () => {
+        await act(async () => {
+            render(<EditTaskModal />);
+        });
 
         fireEvent.change(screen.getByLabelText(/Title task/i), { target: { value: 'Updated Task' } });
         fireEvent.change(screen.getByLabelText(/Description/i), { target: { value: 'Updated Description' } });
 
-        fireEvent.click(screen.getByText(/Save/i));
+        await waitFor(() => {
+            fireEvent.click(screen.getByText(/Save/i));
+        });
 
-        expect(screen.getByLabelText(/Title task/i)).toHaveValue('Updated Task');
-        expect(screen.getByLabelText(/Description/i)).toHaveValue('Updated Description');
-
+        expect(mockEditTask).toHaveBeenCalledWith('1', '101', 'Updated Task', 'Updated Description');
     });
-
-
 });

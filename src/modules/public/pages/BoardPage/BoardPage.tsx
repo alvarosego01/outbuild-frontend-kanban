@@ -43,7 +43,7 @@ export const BoardPage: FC = () => {
                     {
                         currentUser && (
                             <span className='flex self-center p-2 px-6 text-xl text-white bg-indigo-400 rounded-full name '>
-                                <strong className='block mr-1'>Username:</strong> {currentUser.username}
+                                <strong className='block mr-1'>Username: </strong> {currentUser.username}
                             </span>
                         )
                     }

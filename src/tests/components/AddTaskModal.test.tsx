@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { useUiStore } from '@core/store/hooks/useUiStore';
 import { useBoardStore } from '@src/modules/public/store/hooks/useBoardStore';
@@ -16,7 +16,6 @@ jest.mock('@src/modules/public/store/hooks/useBoardStore', () => ({
 HTMLDialogElement.prototype.showModal = jest.fn();
 
 describe('AddTaskModal Component', () => {
-
     const mockCloseModal = jest.fn();
     const mockAddTask = jest.fn();
     const mockSetBoardLoading = jest.fn();
@@ -51,24 +50,27 @@ describe('AddTaskModal Component', () => {
     test('shows validation errors on empty submission', async () => {
         render(<AddTaskModal />);
 
-        fireEvent.click(screen.getByText(/Save/i));
+        await act(async () => {
+            fireEvent.click(screen.getByText(/Save/i));
+        });
 
-        expect((await screen.findAllByText(/Is required/i)).length).toBeGreaterThan(0);
-
+        await waitFor(() => {
+            expect(screen.getAllByText(/Is required/i).length).toBeGreaterThan(0);
+        });
     });
 
-    test('invokes emit_addTaskToBoard on valid form submission', () => {
+    test('invokes emit_addTaskToBoard on valid form submission', async () => {
+
         render(<AddTaskModal />);
 
-        fireEvent.change(screen.getByLabelText(/Title task/i), { target: { value: 'Test Task' } });
-        fireEvent.change(screen.getByLabelText(/Description/i), { target: { value: 'Test Description' } });
-
-        fireEvent.click(screen.getByText(/Save/i));
-
+        await act(async () => {
+            fireEvent.change(screen.getByLabelText(/Title task/i), { target: { value: 'Test Task' } });
+            fireEvent.change(screen.getByLabelText(/Description/i), { target: { value: 'Test Description' } });
+            fireEvent.click(screen.getByText(/Save/i));
         expect(screen.getByLabelText(/Title task/i)).toHaveValue('Test Task');
         expect(screen.getByLabelText(/Description/i)).toHaveValue('Test Description');
+        });
 
 
     });
-
 });

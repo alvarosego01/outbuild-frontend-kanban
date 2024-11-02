@@ -16,9 +16,7 @@ export const Public_main = () => {
 
                 {/* Main content */}
                 <main className="block h-auto py-10 grow">
-
                     <Public_routes />
-
                 </main>
 
                 {/* <Footer /> */}

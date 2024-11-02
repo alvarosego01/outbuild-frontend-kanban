@@ -1,24 +1,29 @@
 version: '3'
 services:
 
+  sockets:
+    build:
+      context: ./socket-server
+    ports:
+      - 3000:3000
+    restart: always
 
-  api:
+  client:
     build:
       context: .
     ports:
-      - ${PORT}:${PORT}
+      - 5173:5173
+    depends_on:
+      - sockets
     restart: always
     volumes:
       - ./src:/usr/src/app/src
       - /usr/src/app/node_modules
-    env_file:
-      - ./.env
+    networks:
+      - outbuild-frontend-kanban
     environment:
       - NODE_ENV=${NODE_ENV}
 
-    networks:
-      - socket-server
-
 networks:
-  socket-server:
+  outbuild-frontend-kanban:
     driver: bridge
