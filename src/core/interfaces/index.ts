@@ -18,8 +18,6 @@ export interface Task_I {
     title: string;
     description: string;
     created_at: string;
-    comments: Comment_I[];
-    // status: TaskStatus_E;
 }
 
 export interface Board_I {

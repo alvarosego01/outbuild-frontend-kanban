@@ -27,8 +27,10 @@ export const BoardPage = () => {
 
     const {
         state: { boards },
-
+        emit_refreshBoards
     } = useBoardStore();
+
+
 
     const {
         state: {
@@ -39,11 +41,6 @@ export const BoardPage = () => {
         }
     } = useUiStore();
 
-    useEffect(() => {
-
-
-    }, [])
-
 
     return (
         <>
@@ -53,8 +50,8 @@ export const BoardPage = () => {
 
                     {
                         currentUser && (
-                            <span className='text-xl'>
-                                {currentUser.username}
+                            <span className='flex self-center p-2 px-6 text-xl text-white bg-indigo-400 rounded-full name '>
+                                <strong className='block mr-1'>Username:</strong> {currentUser.username}
                             </span>
                         )
                     }

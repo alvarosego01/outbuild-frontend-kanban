@@ -3,6 +3,7 @@ import http from 'http';
 import { Server, Socket } from "socket.io";
 import { registerCursorHandlers } from './visitCursor';
 import { ConnectedUser_I } from '../core/interfaces';
+import { boardHandler } from './boards';
 
 const connectedUsers: ConnectedUser_I[] = [];
 
@@ -23,7 +24,6 @@ export const initializeSocket = (server: http.Server) => {
             username: `User-${Math.floor(Math.random() * 1000)}`
         };
 
-        // emit to current user own new user
         socket.emit("current_user", newUser);
 
         connectedUsers.push(newUser);
@@ -34,6 +34,7 @@ export const initializeSocket = (server: http.Server) => {
         socket.broadcast.emit("update_user_list", connectedUsers);
 
         registerCursorHandlers(io, socket, connectedUsers);
+        boardHandler(io, socket);
 
         socket.on("disconnect", () => {
 

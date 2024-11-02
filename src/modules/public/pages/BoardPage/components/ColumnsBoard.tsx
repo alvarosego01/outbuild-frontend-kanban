@@ -6,64 +6,73 @@ import { useDragAndDrop } from "@formkit/drag-and-drop/react";
 import { useBoardStore } from "../../../store/hooks";
 import { useUiStore } from "../../../../../core/store";
 import { useCursorTracking } from "../../../../../core/sockets/hooks";
+import { useEmitBoardState } from "../../../store/hooks/useBoardSocket";
 
 interface Props_I {
     board: Board_I;
     onHandle: Handle_Events_I;
 }
 
+let intervalMove: any;
+
 export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
     const {
         state: {
             onRefreshBoard,
-            onDragg
+            allowExternalRefresh,
+            allowExternalEmit,
+            onDragg,
         },
         emit_setBoardData,
         emit_onDragg,
-        emit_get_taskHandle
+        emit_get_taskHandle,
+        emit_deleteTask,
+        emit_allowExternalEmit
     } = useBoardStore();
 
-    // const {
-    //     handleMouseMove
-    // } = useCursorTracking()
+    const {
+        emit_isDragginSocket,
+        emit_boards,
+    } = useEmitBoardState();
 
     const {
         emit_CreateTaskModal,
-        // emit_ViewTaskModal,
         emit_EditModal
 
     } = useUiStore();
 
     const [isMounted, setIsMounted] = useState(false);
 
+
     const { title, tasks, id } = board;
     const { isInteracting, isLoading } = onHandle;
 
     const prevTasksRef = useRef<Task_I[]>(tasks);
 
-    const [taskListRef, tasksList, setTasksList] = useDragAndDrop<HTMLUListElement, Task_I>(
-        tasks,
-        {
-            group: "taskGroup",
-            onDragstart(data, state) {
-                emit_onDragg(true);
-            },
-            onDragend(data) {
-                emit_onDragg(false);
+const [taskListRef, tasksList, setTasksList] = useDragAndDrop<HTMLUListElement, Task_I>(
+    tasks,
+    {
+        group: "taskGroup",
+        onDragstart(data, state) {
+            emit_onDragg(true);
+        },
+        onDragend(data) {
+            emit_onDragg(false);
 
-            },
-        }
-    );
+        },
+    }
+);
 
     const updateTasksList = (newTasks: Task_I[]) => {
-        const uniqueTasks = newTasks.filter(
-            (newTask) => !tasksList.some((task) => task.id === newTask.id)
-        );
+
         setTasksList(newTasks);
+
     };
 
     const onDeleteTask = (taskId: string) => {
-        setTasksList((prev) => prev.filter((task) => task.id !== taskId));
+
+        emit_deleteTask(id, taskId);
+
     };
 
     const onEditTask = (taskId: string) => {
@@ -84,8 +93,21 @@ export const ColumnsBoard: FC<Props_I> = ({ board, onHandle }) => {
     }, [onRefreshBoard]);
 
     useEffect(() => {
+
+        if (!isMounted) return;
+
+        emit_isDragginSocket(onDragg);
+
+        if(!onDragg) {
+            if(allowExternalEmit) emit_boards();
+        };
+
+    }, [onDragg])
+
+    useEffect(() => {
         if (!isMounted) return;
         emit_setBoardData(id, tasksList);
+        if(allowExternalEmit) emit_boards();
     }, [tasksList]);
 
     useEffect(() => {

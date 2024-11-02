@@ -14,6 +14,8 @@ interface Board_Slice_I extends Board_I {
 
 export interface BoardState_I {
     onRefreshBoard: boolean;
+    allowExternalEmit: boolean;
+    allowExternalRefresh: boolean;
     onDragg: boolean;
     boards: Board_Slice_I[];
 
@@ -34,36 +36,38 @@ const randomid = () => {
 const initialState: BoardState_I = {
 
     onRefreshBoard: false,
+    allowExternalRefresh: false,
+    allowExternalEmit: true,
     onDragg: false,
     boards: [
         {
             id: '1',
             title: 'To Do',
             tasks: [
-                {
-                    id: 'aaa_1234',
-                    title: 'Task 1',
-                    description: 'Description 1',
-                    created_at: '2021-09-09',
-                    comments: [],
-                    handle: initialHandle
-                },
-                {
-                    id: 'bbb_1234',
-                    title: 'Task 2',
-                    description: 'Description 2',
-                    created_at: '2021-09-09',
-                    comments: [],
-                    handle: initialHandle
-                },
-                {
-                    id: 'ccc_1234',
-                    title: 'Task 3',
-                    description: 'Description 3',
-                    created_at: '2021-09-09',
-                    comments: [],
-                    handle: initialHandle
-                }
+                // {
+                //     id: 'aaa_1234',
+                //     title: 'Task 1',
+                //     description: 'Description 1',
+                //     created_at: '2021-09-09',
+
+                //     handle: initialHandle
+                // },
+                // {
+                //     id: 'bbb_1234',
+                //     title: 'Task 2',
+                //     description: 'Description 2',
+                //     created_at: '2021-09-09',
+
+                //     handle: initialHandle
+                // },
+                // {
+                //     id: 'ccc_1234',
+                //     title: 'Task 3',
+                //     description: 'Description 3',
+                //     created_at: '2021-09-09',
+
+                //     handle: initialHandle
+                // }
             ],
             handle: initialHandle,
 
@@ -86,7 +90,6 @@ const initialState: BoardState_I = {
         }
     ],
 
-
 }
 
 export const boardSlice = createSlice({
@@ -94,9 +97,20 @@ export const boardSlice = createSlice({
     initialState,
     reducers: {
 
+
         on_refreshBoards: (state, { payload }: PayloadAction<{ status: boolean }>) => {
 
             state.onRefreshBoard = payload.status;
+
+        },
+        on_allowExternalRefresh: (state, { payload }: PayloadAction<{ status: boolean }>) => {
+
+            state.allowExternalRefresh = payload.status;
+
+        },
+        on_allowExternalEmit: (state, { payload }: PayloadAction<{ status: boolean }>) => {
+
+            state.allowExternalEmit = payload.status;
 
         },
         on_dragg: (state, { payload }: PayloadAction<{ status: boolean }>) => {
@@ -141,6 +155,17 @@ export const boardSlice = createSlice({
             };
 
         },
+        on_deleteTask: (state, { payload }: PayloadAction<{ boardId: string, task_id: string,  }>) => {
+
+            const { boardId, task_id } = payload;
+
+            const boardIndex: number = state.boards.findIndex((board: Board_Slice_I) => board.id === boardId);
+            const taskIndex: number = state.boards[boardIndex].tasks.findIndex((task: Task_Slice_I) => task.id === task_id);
+
+            // remove task by id
+            state.boards[boardIndex].tasks.splice(taskIndex, 1);
+
+        },
         on_setBoardData: (state, { payload }: PayloadAction<{ boardId: string, tasks: Task_I[] }>) => {
 
             const { boardId, tasks } = payload;
@@ -148,10 +173,49 @@ export const boardSlice = createSlice({
 
             const aux_board: Board_I = state.boards[boardIndex];
 
-            state.boards[boardIndex].tasks = tasks.map((task: Task_I) => ({
+            const areTasksDifferent = (tasks1: Task_I[], tasks2: Task_I[]): boolean => {
+                if (tasks1.length !== tasks2.length) return true;
+                for (let i = 0; i < tasks1.length; i++) {
+                    if (tasks1[i].id !== tasks2[i].id || tasks1[i].title !== tasks2[i].title || tasks1[i].description !== tasks2[i].description) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            if (areTasksDifferent(aux_board.tasks, tasks)) {
+                state.boards[boardIndex].tasks = tasks.map((task: Task_I) => ({
+                    handle: initialHandle,
+                    ...task
+                }));
+            }
+
+        },
+        on_setBoardExternalData: (state, { payload }: PayloadAction<{ boards: Board_I[] }>) => {
+
+            const { boards } = payload;
+
+            if(state.allowExternalRefresh) {
+
+            state.boards = boards.map((board: Board_I) => ({
                 handle: initialHandle,
-                ...task
+                ...board,
+                tasks: board.tasks.map((task: Task_I) => ({
+                    handle: initialHandle,
+                    ...task
+                }))
             }));
+
+            state.allowExternalRefresh = false;
+            };
+
+            // setTimeout(() => {
+
+                // state.onRefreshBoard = false;
+                // // state.onRefreshBoard = true;
+                // state.allowExternalEmit = true;
+
+            // }, 200);
 
         },
         on_addTaskToBoard: (state, { payload }: PayloadAction<{ board_id: string, task: Task_I }>) => {
@@ -182,7 +246,11 @@ export const {
     on_setTaskLoading,
     on_editTask,
     on_dragg,
+    on_deleteTask,
+    on_setBoardExternalData,
+    on_allowExternalRefresh,
     on_refreshBoards,
+    on_allowExternalEmit,
     on_setBoardData,
     on_addTaskToBoard
 

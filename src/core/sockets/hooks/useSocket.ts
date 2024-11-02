@@ -14,62 +14,60 @@ interface useHook_I {
 
 const SOCKET_URL = "http://localhost:3150";
 
+let socketInstance: Socket | null = null;
+
 export const useSocket = () => {
-
-    const dispatch = useDispatch();
-
-    const {
-        emit_setUsers,
-        emit_removeUser,
-        emit_setCurrentUser
-    } = useInteractionStore();
-
+    const { emit_setUsers, emit_removeUser, emit_setCurrentUser } = useInteractionStore();
     const [isConnected, setIsConnected] = useState(false);
-    // const [users, setUsers] = useState<ConnectedUser_I[]>([]);
-    const socketRef = useRef<Socket | null>(null);
 
+    if (!socketInstance) {
+        // Solo inicializar socket si no existe una instancia previa
+        socketInstance = io(SOCKET_URL, { withCredentials: true });
+    }
 
     useEffect(() => {
+        const socket = socketInstance!; // Garantizamos que socket no es null aquí
 
-        const socket: Socket = io(SOCKET_URL, { withCredentials: true });
-        socketRef.current = socket;
-
-        socket.on("connect", () => {
-            console.log("Connected to Socket.IO server", socket);
+        const handleConnect = () => {
+            console.log("Connected to Socket.IO server");
             setIsConnected(true);
-        });
-
-        socket.on("current_user", (user: ConnectedUser_I) => {
-            emit_setCurrentUser(user);
-        });
-
-        socket.on("disconnect", () => {
-            console.log("Disconnected from Socket.IO server");
-            setIsConnected(false);
-        });
-
-        socket.on("user_desconnect", (id: string) => {
-
-            emit_removeUser(id);
-
-        });
-
-        socket.on("update_user_list", (userList: ConnectedUser_I[]) => {
-            emit_setUsers(userList);
-        });
-
-        return () => {
-            socket.disconnect();
         };
 
-    }, []);
+        const handleDisconnect = () => {
+            console.log("Disconnected from Socket.IO server");
+            setIsConnected(false);
+        };
 
+        const handleCurrentUser = (user: ConnectedUser_I) => {
+            emit_setCurrentUser(user);
+        };
 
+        const handleUserDisconnect = (id: string) => {
+            emit_removeUser(id);
+        };
+
+        const handleUpdateUserList = (userList: ConnectedUser_I[]) => {
+            emit_setUsers(userList);
+        };
+
+        // Configurar listeners solo una vez
+        socket.on("connect", handleConnect);
+        socket.on("current_user", handleCurrentUser);
+        socket.on("disconnect", handleDisconnect);
+        socket.on("user_desconnect", handleUserDisconnect);
+        socket.on("update_user_list", handleUpdateUserList);
+
+        return () => {
+            socket.off("connect", handleConnect);
+            socket.off("disconnect", handleDisconnect);
+            socket.off("current_user", handleCurrentUser);
+            socket.off("user_desconnect", handleUserDisconnect);
+            socket.off("update_user_list", handleUpdateUserList);
+        };
+    }, [emit_setUsers, emit_removeUser, emit_setCurrentUser]);
 
     return {
-        socket: socketRef.current,
+        socket: socketInstance,
         isConnected,
-        // users,
-
     };
 };
