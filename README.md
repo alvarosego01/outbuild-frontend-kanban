@@ -62,7 +62,7 @@ To run the project, first configure the environment variable in the `.env` file,
 
 3. Once the project is running:
    - Access the client from any browser at: [http://localhost:5173/](http://localhost:5173/)
-   - The socket server will be available at: [http://sockets:3150/](http://sockets:3150/)
+   - The socket server will be available at: [http://localhost:3150/](http://localhost:3150/)
 
 ## Available Scripts
 
