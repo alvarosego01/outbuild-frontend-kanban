@@ -4,8 +4,8 @@ services:
   sockets:
     build:
       context: ./socket-server
-    ports:
-      - 3000:3000
+    # ports:
+      # - 3150:3150
     restart: always
 
   client:
