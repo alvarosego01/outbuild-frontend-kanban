@@ -63,6 +63,8 @@ const [taskListRef, tasksList, setTasksList] = useDragAndDrop<HTMLUListElement, 
     }
 );
 
+
+
     const updateTasksList = (newTasks: Task_I[]) => {
 
         setTasksList(newTasks);
@@ -119,7 +121,7 @@ const [taskListRef, tasksList, setTasksList] = useDragAndDrop<HTMLUListElement, 
 
             <header className="flex justify-between ">
                 <h2 className="font-semibold text-gray-800 truncate dark:text-gray-100">{title}</h2>
-                <button onClick={() => onAddNewTask(id)} className="ml-2 shrink-0 text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 tooltip" data-tip="Add new task">
+                <button aria-label="Add new task" onClick={() => onAddNewTask(id)} className="ml-2 shrink-0 text-violet-500 hover:text-violet-600 dark:hover:text-violet-400 tooltip" data-tip="Add new task">
                     {
                         !isLoading ? (
                             <svg className="fill-current" width="16" height="16" viewBox="0 0 16 16">

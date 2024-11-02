@@ -31,9 +31,6 @@ export const CursorInteraction: FC<Props_I> = ({
             {
                 users.length > 0 && users.map((user: ConnectedUser_I) => {
                     return (
-                        // <div key={user.id} className="absolute z-10 w-6 h-6 transform -translate-x-1/2 -translate-y-1/2 bg-indigo-400 rounded-full" style={{ top: set_pos(user.position?.y), left: set_pos(user.position?.x) }}></div>
-
-
                         <div key={user.id} className="absolute z-10 flex flex-col" style={{ top: set_pos(user.position?.y), left: set_pos(user.position?.x) }}>
 
                             <i className='text-4xl text-indigo-400 -rotate-45 bx bxs-up-arrow'></i>

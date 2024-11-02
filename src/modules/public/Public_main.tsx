@@ -20,8 +20,6 @@ import { Footer, Header } from "../../core/components";
 
                     <Public_routes />
 
-
-
                 </main>
 
                 {/* <Footer /> */}

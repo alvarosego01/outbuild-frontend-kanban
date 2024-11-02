@@ -18,6 +18,7 @@ const formData: LayoutRow_I[] = [
                     label: 'Title task',
                     name: 'title',
                     type: 'text',
+                "aria-label": 'Title task',
                     validation_rules: [
                         {
                             type: "required",
@@ -37,6 +38,7 @@ const formData: LayoutRow_I[] = [
                     label: 'Description',
                     name: 'description',
                     type: 'text',
+                "aria-label": 'Description',
                     validation_rules: [
                         {
                             type: "required",
@@ -126,30 +128,30 @@ export const AddTaskModal: FC = () => {
 
     return (
         <>
-                    <InfoModal title='Add new task' status={status} onClose={onCloseNewTaskModal} >
-                        <div className="p-6 space-y-6">
+            <InfoModal title='Add new task' status={status} onClose={onCloseNewTaskModal} >
+                <div className="p-6 space-y-6">
 
-                            <div className="text-sm">
-                                Complete the following fields to create a new task
+                    <div className="text-sm">
+                        Complete the following fields to create a new task
+                    </div>
+
+                    <FormikProvider value={formik}>
+                        <Form noValidate>
+                            <FormLayoutBuilder rows={formData} />
+                        </Form>
+                    </FormikProvider>
+
+
+                    <footer >
+                        <div className="flex flex-col py-5 pb-0 border-t border-slate-200 dark:border-slate-700">
+                            <div className="flex self-end">
+                                <PrimaryButton onClick={submitForm} isLoading={false} label="Save" />
                             </div>
-
-                            <FormikProvider value={formik}>
-                                <Form noValidate>
-                                    <FormLayoutBuilder rows={formData} />
-                                </Form>
-                            </FormikProvider>
-
-
-                            <footer >
-                                <div className="flex flex-col py-5 pb-0 border-t border-slate-200 dark:border-slate-700">
-                                    <div className="flex self-end">
-                                        <PrimaryButton onClick={submitForm} isLoading={false} label="Save" />
-                                    </div>
-                                </div>
-                            </footer>
-
                         </div>
-                    </InfoModal>
+                    </footer>
+
+                </div>
+            </InfoModal>
         </>
     )
 }

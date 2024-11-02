@@ -1,7 +1,8 @@
 
+
+
 import { FC, useEffect } from "react"
 import { Handle_Events_I, Task_I } from "../../../../../core/interfaces"
-
 
 interface Props_I {
     task: Task_I;
@@ -21,7 +22,7 @@ export const Task: FC<Props_I> = ({
     const { isLoading, isInteracting } = handle;
 
     return (
-        <div className="p-4 bg-white shadow-sm kanban-item h-fit hover:cursor-grab hover:bg-indigo-100 rounded-xl "  >
+        <div aria-label="_Task" className="p-4 bg-white shadow-sm kanban-item h-fit hover:cursor-grab hover:bg-indigo-100 rounded-xl "  >
             <div className="mb-3">
                 <h2 className="mb-1 font-semibold text-gray-800 dark:text-gray-100">{title}</h2>
                 <div className="text-sm">{description}</div>
@@ -32,6 +33,7 @@ export const Task: FC<Props_I> = ({
                 <div className="flex flex-row buttonsSection gap-x-2">
 
                     <button
+                        aria-label="Edit task button"
                         onClick={onEditTask}
                         className="flex items-center justify-center transition bg-white border border-gray-200 rounded-full w-7 h-7 hover:border-gray-300 text-violet-400 tooltip" data-tip="Edit task">
                         <span className="sr-only">Edit</span>
@@ -49,6 +51,7 @@ export const Task: FC<Props_I> = ({
 
                     </button>
                     <button
+                    aria-label="Delete task button"
                         onClick={onDeleteTask}
                         className="flex items-center justify-center text-red-400 transition bg-white border border-gray-200 rounded-full w-7 h-7 hover:border-gray-300 tooltip" data-tip="Delete task">
                         <span className="sr-only">Delete</span>

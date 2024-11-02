@@ -9,7 +9,7 @@ export const InfoModal: FC<Modal_Base_I> = ({
     onClose
 }) => {
 
-    const modalRef = useRef<HTMLDialogElement>(null);
+    const modalRef = useRef<any>(null);
     const closeModalRef = useRef<HTMLButtonElement>(null);
     const id: string = Math.random().toString(36).substring(7);
 

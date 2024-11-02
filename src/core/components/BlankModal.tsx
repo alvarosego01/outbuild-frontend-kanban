@@ -16,13 +16,10 @@ export const BlankModal: FC<Modal_Base_I> = ({
     const closeModalRef = useRef<HTMLButtonElement>(null);
     const id: string = Math.random().toString(36).substring(7);
 
-
     useEffect(() => {
-
         if (status) {
             modalRef.current?.showModal();
         }
-
     }, [status]);
 
     const closeModal = () => {

@@ -7,12 +7,9 @@ import { app_routesConfig } from './Routes';
 
 export const AppRoutes = () => {
 
-
     const [isMounted, setisMounted] = useState(false)
 
     const location = useLocation();
-
-
 
     useEffect(() => {
         setisMounted(true)

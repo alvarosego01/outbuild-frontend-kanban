@@ -24,12 +24,10 @@ export const boardHandler = (
 
     socket.on("emit_boards", (_boardState: Board_I[]) => {
 
-            if(_boardState.length > 0) {
-                boardState = [..._boardState];
-            }
-            socket.broadcast.emit("listen_boards", boardState);
-
-
+        if (_boardState.length > 0) {
+            boardState = [..._boardState];
+        }
+        socket.broadcast.emit("listen_boards", boardState);
 
     });
 

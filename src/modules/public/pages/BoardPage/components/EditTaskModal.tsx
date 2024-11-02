@@ -18,6 +18,7 @@ const formData: LayoutRow_I[] = [
                     label: 'Title task',
                     name: 'title',
                     type: 'text',
+                "aria-label": 'Title task',
                     validation_rules: [
                         {
                             type: "required",
@@ -37,6 +38,7 @@ const formData: LayoutRow_I[] = [
                     label: 'Description',
                     name: 'description',
                     type: 'text',
+                "aria-label": 'Description',
                     validation_rules: [
                         {
                             type: "required",
@@ -55,6 +57,7 @@ const formData: LayoutRow_I[] = [
     }
 
 ]
+
 
 interface Init_valuesData_I {
     title: string;
