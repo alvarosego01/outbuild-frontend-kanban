@@ -64,12 +64,6 @@ To run the project, first configure the environment variable in the `.env` file,
    - Access the client from any browser at: [http://localhost:5173/](http://localhost:5173/)
    - The socket server will be available at: [http://localhost:3150/](http://localhost:3150/)
 
-## Available Scripts
-
-- **`pnpm dev`**: Starts the development server.
-- **`pnpm build`**: Builds the application for production.
-- **`pnpm test`**: Runs the unit tests.
-- **`pnpm lint`**: Runs ESLint to analyze the code for issues.
 
 ## Testing
 
